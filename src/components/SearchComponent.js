@@ -21,7 +21,7 @@ const SearchComponent = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [hasSearched, setHasSearched] = useState(false); // New state variable
 
-  const API_URL = 'http://ec2-3-89-191-37.compute-1.amazonaws.com:3001';
+  const API_URL = 'https://ec2-3-89-191-37.compute-1.amazonaws.com:443';
 
   const handleSearch = () => {
     console.log('Searching...');
