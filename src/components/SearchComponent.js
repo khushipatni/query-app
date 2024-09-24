@@ -21,6 +21,8 @@ const SearchComponent = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [hasSearched, setHasSearched] = useState(false); // New state variable
 
+  const API_URL = 'http://your-ec2-public-dns:3001';
+
   const handleSearch = () => {
     console.log('Searching...');
     setLoading(true);
@@ -33,7 +35,7 @@ const SearchComponent = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:3001/data?startDate=${encodeURIComponent(formattedStartDate)}&endDate=${encodeURIComponent(formattedEndDate)}&keyword=${encodeURIComponent(query)}&db=${encodeURIComponent(database)}`,
+      url: `${API_URL}/data?startDate=${encodeURIComponent(formattedStartDate)}&endDate=${encodeURIComponent(formattedEndDate)}&keyword=${encodeURIComponent(query)}&db=${encodeURIComponent(database)}`,
       headers: { 
         'Content-Type': 'application/json'
       }
@@ -100,7 +102,7 @@ const SearchComponent = () => {
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `http://localhost:3001/${type}?startDate=${encodeURIComponent(formattedStartDate)}&endDate=${encodeURIComponent(formattedEndDate)}&keyword=${encodeURIComponent(query)}&db=${encodeURIComponent(database)}`,
+        url: `${API_URL}/${type}?startDate=${encodeURIComponent(formattedStartDate)}&endDate=${encodeURIComponent(formattedEndDate)}&keyword=${encodeURIComponent(query)}&db=${encodeURIComponent(database)}`,
         headers: { 
             'Content-Type': 'application/json'
         }
