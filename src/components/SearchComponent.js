@@ -21,16 +21,13 @@ const SearchComponent = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [hasSearched, setHasSearched] = useState(false); // New state variable
 
-  const API_URL = 'https://ec2-3-89-191-37.compute-1.amazonaws.com:443';
-
   const instance = axios.create({
-    baseURL: API_URL,
-    // For development only, disable certificate verification
-    // WARNING: This is insecure and should not be used in production
-    httpsAgent: new axios.httpsAgent({  
+    httpsAgent: new https.Agent({  
       rejectUnauthorized: false
     })
   });
+
+  const API_URL = 'https://ec2-3-89-191-37.compute-1.amazonaws.com:443';
 
   const handleSearch = () => {
     console.log('Searching...');
@@ -44,7 +41,7 @@ const SearchComponent = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/data?startDate=${encodeURIComponent(formattedStartDate)}&endDate=${encodeURIComponent(formattedEndDate)}&keyword=${encodeURIComponent(query)}&db=${encodeURIComponent(database)}`,
+      url: `${API_URL}/data?startDate=${encodeURIComponent(formattedStartDate)}&endDate=${encodeURIComponent(formattedEndDate)}&keyword=${encodeURIComponent(query)}&db=${encodeURIComponent(database)}`,
       headers: { 
         'Content-Type': 'application/json'
       }
@@ -111,7 +108,7 @@ const SearchComponent = () => {
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `/${type}?startDate=${encodeURIComponent(formattedStartDate)}&endDate=${encodeURIComponent(formattedEndDate)}&keyword=${encodeURIComponent(query)}&db=${encodeURIComponent(database)}`,
+        url: `${API_URL}/${type}?startDate=${encodeURIComponent(formattedStartDate)}&endDate=${encodeURIComponent(formattedEndDate)}&keyword=${encodeURIComponent(query)}&db=${encodeURIComponent(database)}`,
         headers: { 
             'Content-Type': 'application/json'
         }
