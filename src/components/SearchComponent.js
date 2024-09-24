@@ -21,12 +21,6 @@ const SearchComponent = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [hasSearched, setHasSearched] = useState(false); // New state variable
 
-  const instance = axios.create({
-    httpsAgent: new https.Agent({  
-      rejectUnauthorized: false
-    })
-  });
-
   const API_URL = 'https://ec2-3-89-191-37.compute-1.amazonaws.com:443';
 
   const handleSearch = () => {
@@ -48,7 +42,7 @@ const SearchComponent = () => {
     };   
 
     console.log(config)
-    instance.request(config)
+    axios.request(config)
     .then(response => {
         const notes = response.data;
         console.log(notes);
@@ -115,7 +109,7 @@ const SearchComponent = () => {
     };   
 
     console.log(config);
-    instance.request(config)
+    axios.request(config)
     .then(response => {
         const notes = response.data;
         console.log(notes);
