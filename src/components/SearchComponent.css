@@ -1,0 +1,197 @@
+.light-mode {
+  background-color: #f8f9fa;
+  color: #000;
+  min-height: 100vh;  /* Ensures the background covers the entire viewport height */
+  width: 100%;
+}
+
+.dark-mode {
+  background-color: #343a40;
+  color: #fff;
+  min-height: 100vh;  /* Ensures the background covers the entire viewport height */
+  width: 100%; 
+}
+
+/* Main container styling */
+.main-container {
+  padding: 20px;
+  position: relative;
+}
+
+/* Flexbox layout for the content */
+.content-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.left-side, .right-side {
+  padding: 20px;
+  background-color: inherit;
+  border-radius: 5px;
+}
+
+.right-side {
+  overflow-x: auto;
+}
+
+/* Table styling for dark mode */
+.dark-mode .table {
+  background-color: #454d55;
+}
+
+.dark-mode .table th, .dark-mode .table td {
+  color: #fff;
+}
+
+/* Button and form styles for dark mode */
+.dark-mode .form-control, .dark-mode .form-select {
+  background-color: #495057;
+  color: #fff;
+  border: none;
+}
+
+.dark-mode .btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.light-mode .btn-secondary {
+  background-color: #e9ecef;
+  color: #000;
+  border: none;
+}
+
+.dark-mode .btn-secondary {
+  background-color: #495057;
+  border: none;
+}
+
+/* Dark/light mode toggle button */
+.toggle-mode {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.toggle-mode {
+  position: absolute;
+  /* top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px; */
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+
+.dark-mode .toggle-mode {
+  background-color: #595e63;
+  color: #fff;
+}
+
+.light-mode .toggle-mode {
+  background-color: #f8f9fa;
+  color: #000;
+}
+
+.queried-table-placeholder {
+  padding: 20px;
+  background-color: #e9ecef; /* Slightly darker than the left side */
+  border-radius: 8px;
+  margin-top: 50px;
+}
+
+.dark-mode .queried-table-placeholder {
+  background-color: #495057;
+  color: #ffffff;
+}
+
+/* Instructions Styling */
+.instructions {
+  margin-top: 20px;  /* Space between download button and instructions */
+  text-align: justify;  /* Justified alignment for text */
+  padding: 10px;  /* Padding for better readability */
+  background-color: #f8f9fa;  /* Light background to distinguish instructions */
+  border-radius: 8px;  /* Rounded corners */
+}
+
+.dark-mode .instructions {
+  background-color: #495057;  /* Dark mode styling for instructions */
+  color: #ffffff;
+}
+
+.instructions p {
+  margin-bottom: 0px;  /* Space between instruction lines */
+}
+
+/* Table styles */
+.table {
+  margin-top: 20px;
+}
+
+.table thead th {
+  background-color: #f8f9fa; /* Default light mode */
+  color: #000;
+}
+
+.dark-mode .table thead th {
+  background-color: #3e3e3e;
+  color: white;
+}
+
+.table tbody tr {
+  background-color: #ffffff;
+}
+
+.dark-mode .table tbody tr {
+  background-color: #3e3e3e;
+  color: white;
+}
+
+/* Light mode table text color */
+.light-mode .table tbody tr td {
+  color: black; /* Text color for light mode */
+}
+
+/* Dark mode table text color */
+.dark-mode .table tbody tr td {
+  background-color: #3e3e3e;
+  color: white; /* Text color for dark mode */
+}
+
+
+.dark-mode .table-striped tbody tr:nth-of-type(odd) {
+  background-color: #5a5a5a;
+}
+
+.dark-mode .table-hover tbody tr:hover {
+  background-color: #6a6a6a;
+}
+
+/* Error message */
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+
+.queried-table-placeholder h5 {
+  text-align: left; /* Left-align the heading */
+}
+
+/* .logo-container {
+    position: absolute;
+    z-index: 10;
+    top: 10px; 
+    left: 10px;
+    max-width: 200px; 
+    margin: 0 auto; 
+}
+
+.logo {
+    width: 100px;
+    height: auto;
+} */
+
