@@ -21,7 +21,7 @@ const SearchComponent = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [hasSearched, setHasSearched] = useState(false); // New state variable
 
-  const API_URL = 'https://ec2-3-89-191-37.compute-1.amazonaws.com:443';
+  const API_URL = 'https://daprdata.org';
 
   const handleSearch = () => {
     console.log('Searching...');
@@ -229,7 +229,7 @@ const SearchComponent = () => {
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>User Username</th>
+                      <th>Official</th>
                       <th>ID</th>
                       <th>Total Posts</th>
                       <th>Week of Month</th>
