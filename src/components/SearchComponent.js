@@ -1,6 +1,7 @@
 import './SearchComponent.css';  // Import the CSS file for custom styles
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button, Table } from 'react-bootstrap';
+import { Button, Spinner, Container, Row, Col, Form, Table } from 'react-bootstrap';
+// import {  } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap CSS import
@@ -15,54 +16,55 @@ const SearchComponent = () => {
   const [query, setQuery] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [loading, setLoading] = useState(false);
+  const [loading_s, setLoading_s] = useState(false);
   const [queriedData, setQueriedData] = useState([]);
   const [darkMode, setDarkMode] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [hasSearched, setHasSearched] = useState(false); // New state variable
+  const [loading, setLoading] = useState(false);
 
   const API_URL = 'https://daprdata.org';
 
   const handleSearch = () => {
     console.log('Searching...');
-    setLoading(true);
-    setQueriedData([]); 
+    setLoading_s(true);
+    setQueriedData([]);
     setErrorMessage(''); // Clear previous error messages
     setHasSearched(true); // Mark that a search has been performed
     let formattedStartDate = new Date(startDate).toISOString();
     let formattedEndDate = new Date(endDate).toISOString();
-    
+
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
       url: `${API_URL}/data?startDate=${encodeURIComponent(formattedStartDate)}&endDate=${encodeURIComponent(formattedEndDate)}&keyword=${encodeURIComponent(query)}&db=${encodeURIComponent(database)}`,
-      headers: { 
+      headers: {
         'Content-Type': 'application/json'
       }
-    };   
+    };
 
     console.log(config)
     axios.request(config)
-    .then(response => {
+      .then(response => {
         const notes = response.data;
         console.log(notes);
         setQueriedData(notes); // Assuming notes is an array of data
         setErrorMessage('');
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-      const errorMessage = error.response?.data?.error || 'An unexpected error occurred';
-      setErrorMessage(`Error: ${errorMessage}. Please try again.`);
-      alert('An error occurred. Please check your inputs and try again.'); // Alert the user for immediate feedback
-    })
-    .finally(() => {
-      setLoading(false); // Stop loading
-    });
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        const errorMessage = error.response?.data?.error || 'An unexpected error occurred';
+        setErrorMessage(`Error: ${errorMessage}. Please try again.`);
+        alert('An error occurred. Please check your inputs and try again.'); // Alert the user for immediate feedback
+      })
+      .finally(() => {
+        setLoading_s(false); // Stop loading
+      });
   };
 
   function jsonToCSV(json) {
     if (!Array.isArray(json) || json.length === 0) {
-        throw new Error('Invalid JSON data: must be a non-empty array.');
+      throw new Error('Invalid JSON data: must be a non-empty array.');
     }
 
     const keys = Object.keys(json[0]); // Assumes all objects in the array have the same keys
@@ -73,15 +75,15 @@ const SearchComponent = () => {
 
     // Add rows
     for (const row of json) {
-        const values = keys.map(key => {
-            const escaped = ('' + row[key]).replace(/"/g, '\\"'); // Escape double quotes
-            return `"${escaped}"`; // Wrap values in quotes
-        });
-        csvRows.push(values.join(','));
+      const values = keys.map(key => {
+        const escaped = ('' + row[key]).replace(/"/g, '\\"'); // Escape double quotes
+        return `"${escaped}"`; // Wrap values in quotes
+      });
+      csvRows.push(values.join(','));
     }
 
     return csvRows.join('\n'); // Return CSV string
-}
+  }
 
   const triggerDownload = (blob, filename) => {
     const link = document.createElement('a');
@@ -93,39 +95,40 @@ const SearchComponent = () => {
   };
 
   const handleDownload = (type) => {
+    setLoading(true);
     console.log(`Downloading ${type}...`);
     setErrorMessage('');
-    
+
     let formattedStartDate = new Date(startDate).toISOString();
     let formattedEndDate = new Date(endDate).toISOString();
-    
+
     let config = {
-        method: 'get',
-        maxBodyLength: Infinity,
-        url: `${API_URL}/${type}?startDate=${encodeURIComponent(formattedStartDate)}&endDate=${encodeURIComponent(formattedEndDate)}&keyword=${encodeURIComponent(query)}&db=${encodeURIComponent(database)}`,
-        headers: { 
-            'Content-Type': 'application/json'
-        }
-    };   
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${API_URL}/${type}?startDate=${encodeURIComponent(formattedStartDate)}&endDate=${encodeURIComponent(formattedEndDate)}&keyword=${encodeURIComponent(query)}&db=${encodeURIComponent(database)}`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
 
     console.log(config);
     axios.request(config)
-    .then(response => {
+      .then(response => {
         const notes = response.data;
         console.log(notes);
 
         let csvData = jsonToCSV(notes);
         const blob = new Blob([csvData], { type: 'text/csv' });
         triggerDownload(blob, `queried_${type}.csv`);
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-      const errorMessage = error.response?.data?.error || 'An unexpected error occurred';
-      setErrorMessage(`Error: ${errorMessage}. Please try again.`);
-      alert('An error occurred. Please check your inputs and try again.'); // Alert the user for immediate feedback
-    });
-};
-
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        const errorMessage = error.response?.data?.error || 'An unexpected error occurred';
+        setErrorMessage(`Error: ${errorMessage}. Please try again.`);
+        alert('An error occurred. Please check your inputs and try again.'); // Alert the user for immediate feedback
+      });
+    setLoading(false);
+  };
 
   return (
     <div className={darkMode ? 'dark-mode' : 'light-mode'}>
@@ -160,43 +163,63 @@ const SearchComponent = () => {
               </Form.Group>
 
               <Form.Group className="mb-3">
-                  <Form.Label>Date Range</Form.Label>
-                  <div className="d-flex justify-content-center">
-                    <DatePicker
-                      selected={startDate}
-                      onChange={(date) => setStartDate(date)}
-                      selectsStart
-                      startDate={startDate}
-                      endDate={endDate}
-                      className="form-control me-2"
-                    />
-                    <DatePicker
-                      selected={endDate}
-                      onChange={(date) => setEndDate(date)}
-                      selectsEnd
-                      startDate={startDate}
-                      endDate={endDate}
-                      minDate={startDate}
-                      className="form-control"
-                    />
-                  </div>
-                </Form.Group>
+                <Form.Label>Date Range</Form.Label>
+                <div className="d-flex justify-content-center">
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    selectsStart
+                    startDate={startDate}
+                    endDate={endDate}
+                    className="form-control me-2"
+                  />
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                    selectsEnd
+                    startDate={startDate}
+                    endDate={endDate}
+                    minDate={startDate}
+                    className="form-control"
+                  />
+                </div>
+              </Form.Group>
 
 
               <Button variant="primary" onClick={handleSearch}>Search</Button>
 
-              <div className="mt-3 d-flex justify-content-center">
-                <Button variant="secondary" onClick={() => handleDownload('data')} className="me-2">
-                  Download
-                </Button>
-                <Button variant="secondary" onClick={() => handleDownload('url')} className="me-2">
-                  Download URL
-                </Button>
-                <Button variant="secondary" onClick={() => handleDownload('metadata')}>
-                  Download Metadata
-                </Button>
+              <div className="mt-3 d-flex flex-column align-items-center">
+                <div className="d-flex justify-content-center">
+                  <Button
+                    variant="secondary"
+                    onClick={() => handleDownload('data')}
+                    className="me-2"
+                    disabled={loading}
+                  >
+                    Download Data
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    onClick={() => handleDownload('url')}
+                    className="me-2"
+                    disabled={loading}
+                  >
+                    Download URL
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    onClick={() => handleDownload('metadata')}
+                    disabled={loading}
+                  >
+                    Download Metadata
+                  </Button>
+                </div>
+                {loading && (
+                  <Spinner animation="border" role="status" className="mt-3">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                )}
               </div>
-
 
               {/* Instructions Section: Moved below download buttons */}
               <div className="instructions mt-3">
@@ -215,7 +238,7 @@ const SearchComponent = () => {
           <Col md={7} className="right-side">
             <div className="queried-table-placeholder">
               <h5>Queried Data</h5>
-              {loading ? (
+              {loading_s ? (
                 <p>Searching for the queried data...</p>
               ) : !hasSearched ? (
                 <p>Search for data.</p> // Show this only if no search has been performed
@@ -225,28 +248,26 @@ const SearchComponent = () => {
                 <>
                   {errorMessage && <div style={{ color: 'red' }}>{`Server Error. ${errorMessage}`}</div>}
 
-                <Table striped bordered hover responsive>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Official</th>
-                      <th>ID</th>
-                      <th>Total Posts</th>
-                      <th>Week of Month</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {queriedData.map((note, index) => (
-                      <tr key={index + 1}>
-                        <td>{index + 1}</td>
-                        <td>{note.user_username}</td>
-                        <td>{note.author_id}</td>
-                        <td>{note.total_posts}</td>
-                        <td>{note.week_of_month}</td>
+                  <Table striped bordered hover responsive>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Official</th>
+                        <th>Total Posts</th>
+                        <th>Week of Month</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </Table>
+                    </thead>
+                    <tbody>
+                      {queriedData.map((note, index) => (
+                        <tr key={index + 1}>
+                          <td>{index + 1}</td>
+                          <td>{note.user_username}</td>
+                          <td>{note.total_posts}</td>
+                          <td>{note.week_of_month}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
                 </>
               )}
             </div>
