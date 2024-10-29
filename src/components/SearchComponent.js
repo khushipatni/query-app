@@ -126,8 +126,11 @@ const SearchComponent = () => {
         const errorMessage = error.response?.data?.error || 'An unexpected error occurred';
         setErrorMessage(`Error: ${errorMessage}. Please try again.`);
         alert('An error occurred. Please check your inputs and try again.'); // Alert the user for immediate feedback
+      })
+      .finally(() => {
+        setLoading(false);
       });
-    setLoading(false);
+    
   };
 
   return (
