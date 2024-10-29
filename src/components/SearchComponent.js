@@ -24,6 +24,7 @@ const SearchComponent = () => {
   const [loading, setLoading] = useState(false);
 
   const API_URL = 'https://daprdata.org';
+  // const API_URL = 'http://localhost:3001';
 
   const handleSearch = () => {
     console.log('Searching...');
@@ -217,11 +218,13 @@ const SearchComponent = () => {
                     Download Metadata
                   </Button>
                 </div>
-                {loading && (
-                  <Spinner animation="border" role="status" className="mt-3">
-                    <span className="visually-hidden">Loading...</span>
-                  </Spinner>
-                )}
+                  {loading && (
+                    <div className="text-center mt-3">
+                      <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </Spinner>
+                    </div>
+                  )}
               </div>
 
               {/* Instructions Section: Moved below download buttons */}
